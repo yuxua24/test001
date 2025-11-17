@@ -1,0 +1,19 @@
+name: Auto Merge PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  check_suite:
+    types: [completed]
+
+jobs:
+  auto-merge:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Merge
+        uses: ahmadnassri/action-automerge@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: merge
+          approve: true
